@@ -23,7 +23,7 @@ class MyArrayListTests
 {
 	private ListADT<String> obj1;
 	private ListADT<String> obj2;
-	private ListADT<String> obj3;
+	private MyDLL<String> obj3;
 
 	/**
 	 * @throws java.lang.Exception
