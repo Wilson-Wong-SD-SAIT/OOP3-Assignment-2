@@ -10,18 +10,13 @@ import java.util.EmptyStackException;
  */
 public interface StackADT<E> extends Serializable 
 {
-	/**
-	 * Creates an empty stack.
-	 * Precondition: None.
-     * Postcondition: The stack is empty and ready to have elements added.
-	 */
-	public void createStack();
 	
     /**
      * Returns the number of elements in the stack.
      *
      * @return The number of elements in the stack.
-     * @post The stack remains unchanged.
+     * Preconditions: A valid StackADT object exists.
+	 * Postconditions: StackADT size is returned.
      */
     public int size();
     
@@ -37,6 +32,7 @@ public interface StackADT<E> extends Serializable
 	 * Adds the specific element at the top of the stack.
 	 * 
 	 * @param element The element that is to be added on top of the stack.
+	 * @return true if element is appended successfully.
 	 * @throws NullPointerException
 	 * 			If the specified element is <code>null</code> and the list
 	 * 			implementation does not support having <code>null</code>
@@ -44,7 +40,7 @@ public interface StackADT<E> extends Serializable
 	 * Precondition: None.
      * Postcondition: The stack contains the element at the top.
 	 */
-	public void push(E element)throws NullPointerException;
+	public boolean push(E toAdd)throws NullPointerException;
 	
 	/**
 	 * Returns index of the specified element in this stack. 

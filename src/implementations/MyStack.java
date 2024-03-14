@@ -11,39 +11,30 @@ public class MyStack<E> implements StackADT<E>, Iterator<E>
 {
 
 	private static final long serialVersionUID = 2357999674110532529L;
-	private MyArrayList<E> array;
+	private MyArrayList<E> stack;
 	private int iteratorI = -1;
 
 	public MyStack() 
 	{
-		array = new MyArrayList<E>();
-	}
-
-	@Override
-	public void createStack() 
-	{
-		// TODO Auto-generated method stub
-		
+		stack = new MyArrayList<E>();
 	}
 
 	@Override
 	public int size() 
 	{
-		return array.size();
+		return stack.size();
 	}
 
 	@Override
 	public void clear() 
 	{
-		array.clear();
+		stack.clear();
 	}
 
 	@Override
-	public void push(E element)throws NullPointerException
+	public boolean push(E toAdd)throws NullPointerException
 	{
-		if(element == null)
-			throw new NullPointerException();
-		array.add(element);
+		return stack.add(toAdd);
 	}
 
 	@Override
@@ -51,9 +42,9 @@ public class MyStack<E> implements StackADT<E>, Iterator<E>
 	{
 		if(toFind == null)
 			throw new NullPointerException();
-		for(int i = 0; i < array.size(); i++) 
+		for(int i = 0; i < stack.size(); i++) 
 		{
-			if(array.get(i) == toFind) return i;
+			if(stack.get(i) == toFind) return i;
 		}
 		return -1;
 	}
@@ -61,20 +52,21 @@ public class MyStack<E> implements StackADT<E>, Iterator<E>
 	@Override
 	public E peek() throws EmptyStackException 
 	{
-		return array.get(array.size()-1);
+		return stack.get(stack.size()-1);
 	}
 
 	@Override
 	public E pop() throws EmptyStackException 
 	{
-		E toPop = array.remove(array.size()-1);
-		return toPop;
+		if(stack.isEmpty())
+			throw new EmptyStackException();
+		return stack.remove(stack.size()-1);
 	}
 
 	@Override
 	public boolean isEmpty() 
 	{
-		return array.isEmpty();
+		return stack.isEmpty();
 	}
 
 	@Override
@@ -85,15 +77,15 @@ public class MyStack<E> implements StackADT<E>, Iterator<E>
 	
 	@Override
 	public boolean hasNext() {
-		if (iteratorI < array.size() - 1 & array.size() != 0 ) return true;
+		if (iteratorI < stack.size() - 1 & stack.size() != 0 ) return true;
 		return false;
 	}
 
 	@Override
 	public E next() throws NoSuchElementException 
 	{
-		if (iteratorI < array.size() - 1 & array.size() != 0 )
-		{ return array.get(++iteratorI); }
+		if (iteratorI < stack.size() - 1 & stack.size() != 0 )
+		{ return stack.get(++iteratorI); }
 		throw new NoSuchElementException();
 	}
 }

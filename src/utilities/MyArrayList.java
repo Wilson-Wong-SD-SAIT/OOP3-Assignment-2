@@ -1,15 +1,14 @@
 package utilities;
 
-import java.util.Arrays;
+import java.lang.reflect.Array;
 import java.util.NoSuchElementException;
 
-public class MyArrayList<E> implements ListADT<E>, Iterator<E>
+public class MyArrayList<E> implements ListADT<E>
 {
 	private static final long serialVersionUID = -7686414727616546634L;
 	private E[] array;
 	private final int CAPACITY = 10;
 	private int size;
-	private int iteratorI = -1;
 	
 	@SuppressWarnings("unchecked")
 	public MyArrayList() 
@@ -145,29 +144,32 @@ public class MyArrayList<E> implements ListADT<E>, Iterator<E>
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public E[] toArray(E[] toHold) throws NullPointerException 
 	{
 		if( toHold == null) throw new NullPointerException();
 		if (toHold.length < size) 
 		{
-			toHold =  Arrays.copyOf(array, size);;
+			toHold = (E[]) (Array.newInstance(toHold.getClass().getComponentType(), size));
 		}
 		for(int i = 0; i < size; i++) 
 		{
 			toHold[i] = array[i];
 		}
+		if(toHold.length > size)
+		{
+			toHold[size] = null;
+		}
 		return toHold;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object[] toArray() 
 	{
-		Object[] toArray = new Object[size];
-		for(int i = 0; i < size; i++) 
-		{
-			toArray[i] = array[i];
-		}
-		return toArray;
+		E[] toReturn = (E[])(Array.newInstance(Object.class, size));
+		System.arraycopy(array, 0, toReturn, 0, size());
+		return toReturn;
 	}
 
 
@@ -176,19 +178,33 @@ public class MyArrayList<E> implements ListADT<E>, Iterator<E>
 	{
 		return (Iterator<E>)this;
 	}
-
-	@Override
-	public boolean hasNext() {
-		if (iteratorI < size - 1 & size != 0 ) return true;
-		return false;
-	}
-
-	@Override
-	public E next() throws NoSuchElementException 
+	
+	private class ArrayBasedIterator implements Iterator<E>
 	{
-		if (iteratorI < size - 1 & size != 0 )
-		{ return array[++iteratorI]; }
-		throw new NoSuchElementException();
+ 
+		private E[] copyOfElements;
+		private int pos;
+		
+		@SuppressWarnings("unchecked")
+		public ArrayBasedIterator()
+		{
+			copyOfElements = (E[]) new Object[size];
+			System.arraycopy(array, 0, copyOfElements, 0, copyOfElements.length);
+		}
+		@Override
+		public boolean hasNext()
+		{
+			return pos < copyOfElements.length;
+		}
+ 
+		@Override
+		public E next() throws NoSuchElementException
+		{
+			if(pos == copyOfElements.length)
+				throw new NoSuchElementException();
+			return copyOfElements[pos++];
+		}
+		
 	}
 
 }
