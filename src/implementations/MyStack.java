@@ -76,15 +76,15 @@ public class MyStack<E> implements StackADT<E>, Iterator<E>
 	}
 	
 	@Override
-	public boolean hasNext() {
-		if (iteratorI < stack.size() - 1 & stack.size() != 0 ) return true;
-		return false;
+	public boolean hasNext() 
+	{
+		return iteratorI < stack.size() - 1 & stack.size() != 0;
 	}
 
 	@Override
 	public E next() throws NoSuchElementException 
 	{
-		if (iteratorI < stack.size() - 1 & stack.size() != 0 )
+		if (hasNext() )
 		{ return stack.get(++iteratorI); }
 		throw new NoSuchElementException();
 	}

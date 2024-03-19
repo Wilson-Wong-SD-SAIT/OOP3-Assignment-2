@@ -14,6 +14,7 @@ public class MyArrayList<E> implements ListADT<E>
 	public MyArrayList() 
 	{
 		array = (E[]) new Object[CAPACITY];
+		size = 0;
 	}
 	
 	@Override
