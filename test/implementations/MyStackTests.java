@@ -6,6 +6,7 @@ package implementations;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -56,9 +57,19 @@ class MyStackTests
 	 * Test method for {@link implementations.MyStack#push(java.lang.Object)}.
 	 */
 	@Test
-	void testPush() 
+	void testPushEmpty() 
+	{
+		assertThrows(NullPointerException.class, () -> obj1.push(null));
+	}
+	
+	/**
+	 * Test method for {@link implementations.MyStack#push(java.lang.Object)}.
+	 */
+	@Test
+	void testPushNotEmpty() 
 	{
 		obj1.push("A");
+		assertEquals(1, obj1.size());
 		assertEquals("A", obj1.peek());
 	}
 
@@ -70,15 +81,25 @@ class MyStackTests
 	{
 		obj1.push("B");
 		obj1.push("A");
-		assertEquals(1, obj1.search("B"));
-		assertEquals(0, obj1.search("A"));
+		assertEquals(2, obj1.size());
+		assertEquals(0, obj1.search("B"));
+		assertEquals(1, obj1.search("A"));
 	}
 
 	/**
 	 * Test method for {@link implementations.MyStack#peek()}.
 	 */
 	@Test
-	void testPeek() 
+	void testPeekEmpty() 
+	{
+		assertThrows(EmptyStackException.class, () -> obj1.peek());
+	}
+	
+	/**
+	 * Test method for {@link implementations.MyStack#peek()}.
+	 */
+	@Test
+	void testPeekNotEmpty() 
 	{
 		obj1.push("B");
 		assertTrue(obj1.push("A"));
@@ -90,7 +111,16 @@ class MyStackTests
 	 * Test method for {@link implementations.MyStack#pop()}.
 	 */
 	@Test
-	void testPop() 
+	void testPopEmpty() 
+	{
+		assertThrows(EmptyStackException.class, () -> obj1.pop());
+	}
+	
+	/**
+	 * Test method for {@link implementations.MyStack#pop()}.
+	 */
+	@Test
+	void testPopNotEmpty() 
 	{
 		obj1.push("A");
 		obj1.push("B");
@@ -104,6 +134,25 @@ class MyStackTests
 	 */
 	@Test
 	void testIsEmpty() 
+	{
+		assertTrue(obj1.isEmpty());
+	}
+	
+	/**
+	 * Test method for {@link implementations.MyStack#isEmpty()}.
+	 */
+	@Test
+	void testIsEmptyNot() 
+	{
+		obj1.push("A");
+		assertFalse(obj1.isEmpty());
+	}
+	
+	/**
+	 * Test method for {@link implementations.MyStack#isEmpty()}.
+	 */
+	@Test
+	void testIsEmptyPushPop() 
 	{
 		obj1.push("A");
 		obj1.pop();

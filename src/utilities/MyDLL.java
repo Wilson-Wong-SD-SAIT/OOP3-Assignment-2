@@ -7,10 +7,92 @@ public class MyDLL<E> implements ListADT<E>
 	private MyDLLNode<E> head, tail;
 	private int size;
 	
-	@Override
+	public MyDLL()
+	{
+		head = null;
+		tail = null;
+		size = 0;
+	}
+	
+	public MyDLLNode<E> getHead() 
+	{
+		return head;
+	}
+
+	public MyDLLNode<E> getTail() 
+	{
+		return tail;
+	}
+	
+	public void addFirst(E item) throws NullPointerException 
+	{
+		if (item == null) throw new NullPointerException("Cannot add null element to the list.");
+	    
+		MyDLLNode<E> newNode = new MyDLLNode<>(item);
+        
+        if (isEmpty()) 
+        {
+            head = newNode;
+            tail = newNode;
+        } 
+        else {
+            newNode.setNext(head);
+            head.setPrev(newNode);
+            head = newNode;
+        }
+        size++;
+	}
+
+	public void addLast(E item) throws NullPointerException 
+	{
+		if (item == null) throw new NullPointerException("Cannot add null element to the list.");
+	    
+		MyDLLNode<E> newNode = new MyDLLNode<>(item);
+        
+        if (isEmpty()) 
+        {
+            head = newNode;
+            tail = newNode;
+        } 
+        else 
+        {
+            newNode.setPrev(tail);
+            tail.setNext(newNode);
+            tail = newNode;
+        }
+        size++;
+	}
+	
+	public E removeFirst() throws IndexOutOfBoundsException 
+	{
+		if (isEmpty()) throw new IndexOutOfBoundsException();
+	    
+		size--;
+		
+        E element = head.getElement();
+        head = head.getNext();
+        return element;
+	}
+	
+	public E removeLast() throws IndexOutOfBoundsException 
+	{
+		if (isEmpty()) throw new IndexOutOfBoundsException();
+	    
+		size--;
+		
+        E element = tail.getElement();
+        tail = tail.getPrev();
+        return element;
+	}
+
 	public int size() 
 	{
 		return size;
+	}
+
+	public boolean isEmpty() 
+	{
+		return size < 1;
 	}
 
 	@Override
@@ -60,12 +142,6 @@ public class MyDLL<E> implements ListADT<E>
 	public E set(int index, E toChange) throws NullPointerException, IndexOutOfBoundsException {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override

@@ -52,6 +52,8 @@ public class MyStack<E> implements StackADT<E>, Iterator<E>
 	@Override
 	public E peek() throws EmptyStackException 
 	{
+		if(stack.isEmpty())
+			throw new EmptyStackException();
 		return stack.get(stack.size()-1);
 	}
 
