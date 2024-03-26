@@ -177,7 +177,7 @@ public class MyArrayList<E> implements ListADT<E>
 	@Override
 	public Iterator<E> iterator() 
 	{
-		return (Iterator<E>)this;
+		return new ArrayBasedIterator();
 	}
 	
 	private class ArrayBasedIterator implements Iterator<E>

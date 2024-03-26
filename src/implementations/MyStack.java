@@ -7,12 +7,11 @@ import utilities.Iterator;
 import utilities.MyArrayList;
 import utilities.StackADT;
 
-public class MyStack<E> implements StackADT<E>, Iterator<E> 
+public class MyStack<E> implements StackADT<E>
 {
 
 	private static final long serialVersionUID = 2357999674110532529L;
 	private MyArrayList<E> stack;
-	private int iteratorI = -1;
 
 	public MyStack() 
 	{
@@ -74,20 +73,35 @@ public class MyStack<E> implements StackADT<E>, Iterator<E>
 	@Override
 	public Iterator<E> iterator() 
 	{
-		return (Iterator<E>)this;
+		return (Iterator<E>)new ArrayBasedIterator();
 	}
 	
-	@Override
-	public boolean hasNext() 
+	
+	private class ArrayBasedIterator implements Iterator<E>
 	{
-		return iteratorI < stack.size() - 1 & stack.size() != 0;
-	}
-
-	@Override
-	public E next() throws NoSuchElementException 
-	{
-		if (hasNext() )
-		{ return stack.get(++iteratorI); }
-		throw new NoSuchElementException();
+ 
+		private E[] copyOfElements;
+		private int pos;
+		
+		@SuppressWarnings("unchecked")
+		public ArrayBasedIterator()
+		{
+			copyOfElements = (E[]) new Object[size()];
+			System.arraycopy(stack.toArray(), 0, copyOfElements, 0, copyOfElements.length);
+		}
+		@Override
+		public boolean hasNext()
+		{
+			return pos < copyOfElements.length;
+		}
+ 
+		@Override
+		public E next() throws NoSuchElementException
+		{
+			if(pos == copyOfElements.length)
+				throw new NoSuchElementException();
+			return copyOfElements[pos++];
+		}
+		
 	}
 }
